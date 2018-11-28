@@ -1,0 +1,40 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.cell {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-right: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+
+.row {
+    height: 12px;
+}
+
+.cell.right {
+    border-right: 1px solid black;
+}
+
+.cell.down {
+    border-bottom: 1px solid black;
+}
+
+.cell.left {
+    border-left: 1px solid black;
+}
+
+.cell.up {
+    border-top: 1px solid black;
+}
+
+.visited {
+    background-color: blue;
+}
