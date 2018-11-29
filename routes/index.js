@@ -63,17 +63,17 @@ router.get('/maze', function (req, res, next) {
         res.render('error', {message: "Maze size too large.", error: {status: "Parameters too large.", stack: "Not enough peanuts.."}});
         return;
     }
-    let sets = {};
+    let sets = [];
     let maze = [];
     let cells = [];
     for (let y = 0; y < height; y++) {
         row = [];
         for (let x = 0; x < width; x++) {
-            let set_id = Object.keys(sets).length;
+            let set_id = sets.length;
             let cell = {'right': true, 'down': true, 'gens': [go_left, go_right, go_up, go_down], 'set': set_id, 'x': x, 'y': y, id: y + '_' + x};
             shuffle(cell.gens);
             row.push(cell);
-            sets[set_id] = [cell];
+            sets.push([cell]);
             cells.push(cell);
         }
         maze.push(row);
