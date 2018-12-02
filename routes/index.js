@@ -6,6 +6,16 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
+function Node(val, next) {
+    this.value = val || null;
+    this.next = next || null;
+}
+
+function LinkedList (head, tail) {
+    this.head = head || null;
+    this.tail = tail || null;
+}
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -21,10 +31,13 @@ function shuffle(a) {
 }
 
 function merge_set(sets, set1, set2) {
-    for (let i = 0; i < sets[set1].length; i++) {
-        sets[set1][i].set = set2;
+    let node = sets[set1].head;
+    while (node) {
+        node.value.set = set2;
+        node = node.next;
     }
-    sets[set2].push.apply(sets[set2], sets[set1]);
+    sets[set2].tail.next = sets[set1].head;
+    sets[set2].tail = sets[set1].tail;
     delete sets[set1];
 }
 
@@ -59,10 +72,10 @@ function go_down(cell, maze, sets, width, height) {
 router.get('/maze', function (req, res, next) {
     let width = parseInt(req.query.width);
     let height = parseInt(req.query.height);
-    if (width * height > 30000) {
-        res.render('error', {message: "Maze size too large.", error: {status: "Parameters too large.", stack: "Not enough peanuts.."}});
-        return;
-    }
+    // if (width * height > 30000) {
+    //     res.render('error', {message: "Maze size too large.", error: {status: "Parameters too large.", stack: "Not enough peanuts.."}});
+    //     return;
+    // }
     let sets = [];
     let maze = [];
     let cells = [];
@@ -73,7 +86,8 @@ router.get('/maze', function (req, res, next) {
             let cell = {'right': true, 'down': true, 'gens': [go_left, go_right, go_up, go_down], 'set': set_id, 'x': x, 'y': y, id: y + '_' + x};
             shuffle(cell.gens);
             row.push(cell);
-            sets.push([cell]);
+            let node = new Node(cell);
+            sets.push(new LinkedList(node, node));
             cells.push(cell);
         }
         maze.push(row);
