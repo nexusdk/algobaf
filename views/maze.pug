@@ -4,9 +4,6 @@ block head
     script(src="/javascripts/maze.js")
 
 block content
-    each row in maze
-        div(class='row')
-            each col in row
-                div(class='cell' + (col.right ? ' right' : '') + (col.down ? ' down' : '') + (col.left ? ' left' : '') + (col.up ? ' up' : ''), id=col.id)
+    canvas(id='maze')
     br
     input(type="button", onclick="solve()", value="Solve")

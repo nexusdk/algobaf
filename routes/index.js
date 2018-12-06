@@ -69,13 +69,7 @@ function go_down(cell, maze, sets, width, height) {
     }
 }
 
-router.get('/maze', function (req, res, next) {
-    let width = parseInt(req.query.width);
-    let height = parseInt(req.query.height);
-    // if (width * height > 30000) {
-    //     res.render('error', {message: "Maze size too large.", error: {status: "Parameters too large.", stack: "Not enough peanuts.."}});
-    //     return;
-    // }
+function maze_gen(width, height) {
     let sets = [];
     let maze = [];
     let cells = [];
@@ -106,7 +100,19 @@ router.get('/maze', function (req, res, next) {
             cells.splice(getRandomInt(cells.length), 0, cells.shift());
         }
     }
-    res.render('maze', {maze: maze});
+    return maze;
+}
+
+router.get('/maze-gen', (req, res, next) => {
+    let width = parseInt(req.query.width);
+    let height = parseInt(req.query.height);
+    let maze = maze_gen(width, height);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(maze));
+});
+
+router.get('/maze', function (req, res, next) {
+    res.render('maze');
 });
 
 module.exports = router;
